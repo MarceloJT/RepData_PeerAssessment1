@@ -74,7 +74,7 @@ ggtitle("Total Steps Taken per Day")+
 xlab("steps")+
 ylab("counts")
 ```
-![](figures/histogram01)
+![](figures/histogram01.png)
 
 The average of the steps taken daily is :
 
