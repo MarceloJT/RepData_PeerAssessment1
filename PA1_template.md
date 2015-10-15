@@ -42,7 +42,21 @@ activityData$interval <- factor(activityData$interval)
 activityData$date <- as.Date(activityData$date, format = "%Y-%m-%d")
 # check the data
 head(activityData)
+```
+##  steps       date interval
+##1    NA 2012-10-01        0
+##2    NA 2012-10-01        5
+##3    NA 2012-10-01       10
+##4    NA 2012-10-01       15
+##5    NA 2012-10-01       20
+##6    NA 2012-10-01       25
+```
 str(activityData)
+```
+##'data.frame':	17568 obs. of  3 variables:
+## $ steps   : num  NA NA NA NA NA NA NA NA NA NA ...
+## $ date    : Date, format: "2012-10-01" "2012-10-01" ...
+## $ interval: Factor w/ 288 levels "0","5","10","15",..: 1 2 3 4 5 6 7 8 9 10 ...
 ```
 
 As observed above, the variables included in this dataset are:  
@@ -64,6 +78,14 @@ totalStepsperDay <- aggregate(steps ~ date, data = activityData, sum, na.rm = TR
 # check the data
 head(totalStepsperDay)
 ```
+##        date steps
+##1 2012-10-02   126
+##2 2012-10-03 11352
+##3 2012-10-04 12116
+##4 2012-10-05 13294
+##5 2012-10-06 15420
+##6 2012-10-07 11015
+```
 
 An histogram that summarises the data above was obtained with the follwing code:
 
@@ -81,12 +103,15 @@ The average of the steps taken daily is :
 ```{r}
 mean(totalStepsperDay$steps)
 ```
+##[1] 10766.19
 
 And the median is:
 
 ```{r}
 median(totalStepsperDay$steps)
 ```
+##[1] 10765
+
 <br>
 
 ### What is the average daily activity pattern?
@@ -103,13 +128,16 @@ xlab("5-minute intervals")+
 ylab("average number of steps")
 ```
 
+![](figures/averageSteps.png)
+
 The 5-minute interval, on average across all the days in the dataset, that contains the maximum number of steps is calculated as:
 
 ```{r}
 averageSteps$interval01[which.max(averageSteps$avgSteps)]
 ```
+##[1] 835
 
-In this case, the `r averageSteps$interval01[which.max(averageSteps$avgSteps)]`-th 5-minute interval has the maximum number of steps.
+In this case, the 835-th 5-minute interval has the maximum number of steps.
 
 <br>
 
@@ -120,8 +148,9 @@ To verify if the occurance of such bias, we first calculate the total number of 
 ```{r}
 sum(is.na(activityData))
 ```
+##[1] 2304
 
-There are **`r sum(is.na(activityData))`** NA's (missing data).
+There are 2304 NA's (missing data).
 
 The strategy to fill in the missing values will be replacing them all by the mean of the 5-minute interval as already calculated above.  For this, we create a new table by binding "activityData" and "averageSteps", then, we replace each NA value by the respective mean for the interval, obtaining a new dataset "totalStepsNoNA".  
 The code for this operation is the following:
@@ -148,17 +177,21 @@ histogr03 <- ggplot(totalStepsNoNA, aes(totalStepsNoNA$steps)) +
 grid.arrange(histogr02, histogr03, ncol = 2)
 ```
 
+![](figures/histograms02and03.png)
+
 The new average of the steps taken daily when NA's are removed is :
 
 ```{r}
 mean(totalStepsNoNA$steps)
 ```
+##[1] 10766.19
 
 And the new median when NA's are removed is:
         
-        ```{r}
+```{r}
 median(totalStepsNoNA$steps)
 ```
+##[1] 10766.19
 
 Which shows no significant difference on both indicators.  However, there is a clear increase on the number of counts on the average when NA's are removed.  The distribution of the data also gets visually closer to normal.  This can be checked later in a future exercise.   
 
@@ -180,7 +213,7 @@ averageWeekEnds <- aggregate(steps ~ interval, data = weekendSET, mean, na.rm = 
 
 Plotting the graphs:
         
-        ```{r plotLineGraphs}
+```{r plotLineGraphs}
 gline01 <- ggplot(averageWeekDays, aes(x = interval, y = steps, group = 1)) + 
         geom_line(colour="#000099") + 
         scale_x_discrete(breaks = seq(0, 2500, 500))+
@@ -195,6 +228,8 @@ gline02 <- ggplot(averageWeekEnds, aes(x = interval, y = steps, group = 1)) +
         ylab("average steps")
 grid.arrange(gline01, gline02, ncol = 1)
 ```
+
+![](figures/panel01.png)
 
 What we can observe is that there is a peak close to the 5-minute interval 835 on both weekends and weekdays sets. The main difference is that the average after that interval is much higher on the weekends, showing higher level of movement on weekends than working days.
 <br>
