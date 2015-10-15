@@ -43,20 +43,20 @@ activityData$date <- as.Date(activityData$date, format = "%Y-%m-%d")
 # check the data
 head(activityData)
 ```
-#####  steps       date interval
-#####1    NA 2012-10-01        0
-#####2    NA 2012-10-01        5
-#####3    NA 2012-10-01       10
-#####4    NA 2012-10-01       15
-#####5    NA 2012-10-01       20
-#####6    NA 2012-10-01       25
+  steps       date interval
+1    NA 2012-10-01        0
+2    NA 2012-10-01        5
+3    NA 2012-10-01       10
+4    NA 2012-10-01       15
+5    NA 2012-10-01       20
+6    NA 2012-10-01       25
 ```{r}
 str(activityData)
 ```
-#####'data.frame':	17568 obs. of  3 variables:
-##### $ steps   : num  NA NA NA NA NA NA NA NA NA NA ...
-##### $ date    : Date, format: "2012-10-01" "2012-10-01" ...
-##### $ interval: Factor w/ 288 levels "0","5","10","15",..: 1 2 3 4 5 6 7 8 9 10 ...
+'data.frame':	17568 obs. of  3 variables:
+ $ steps   : num  NA NA NA NA NA NA NA NA NA NA ...
+ $ date    : Date, format: "2012-10-01" "2012-10-01" ...
+ $ interval: Factor w/ 288 levels "0","5","10","15",..: 1 2 3 4 5 6 7 8 9 10 ...
 ```
 
 As observed above, the variables included in this dataset are:  
