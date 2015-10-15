@@ -43,20 +43,26 @@ activityData$date <- as.Date(activityData$date, format = "%Y-%m-%d")
 # check the data
 head(activityData)
 ```
-  steps       date interval
-1    NA 2012-10-01        0
-2    NA 2012-10-01        5
-3    NA 2012-10-01       10
-4    NA 2012-10-01       15
-5    NA 2012-10-01       20
-6    NA 2012-10-01       25
+
+```
+##  steps       date interval
+##1    NA 2012-10-01        0
+##2    NA 2012-10-01        5
+##3    NA 2012-10-01       10
+##4    NA 2012-10-01       15
+##5    NA 2012-10-01       20
+##6    NA 2012-10-01       25
+```
+
 ```{r}
 str(activityData)
 ```
-'data.frame':	17568 obs. of  3 variables:
- $ steps   : num  NA NA NA NA NA NA NA NA NA NA ...
- $ date    : Date, format: "2012-10-01" "2012-10-01" ...
- $ interval: Factor w/ 288 levels "0","5","10","15",..: 1 2 3 4 5 6 7 8 9 10 ...
+
+```
+##'data.frame':	17568 obs. of  3 variables:
+## $ steps   : num  NA NA NA NA NA NA NA NA NA NA ...
+## $ date    : Date, format: "2012-10-01" "2012-10-01" ...
+## $ interval: Factor w/ 288 levels "0","5","10","15",..: 1 2 3 4 5 6 7 8 9 10 ...
 ```
 
 As observed above, the variables included in this dataset are:  
@@ -77,6 +83,8 @@ The total number of steps taken per day is stored in the variable called "totalS
 totalStepsperDay <- aggregate(steps ~ date, data = activityData, sum, na.rm = TRUE)
 # check the data
 head(totalStepsperDay)
+```
+
 ```
 ##        date steps
 ##1 2012-10-02   126
@@ -103,15 +111,20 @@ The average of the steps taken daily is :
 ```{r}
 mean(totalStepsperDay$steps)
 ```
+
+```
 ##[1] 10766.19
+```
 
 And the median is:
 
 ```{r}
 median(totalStepsperDay$steps)
 ```
-##[1] 10765
 
+```
+##[1] 10765
+```
 <br>
 
 ### What is the average daily activity pattern?
@@ -135,7 +148,10 @@ The 5-minute interval, on average across all the days in the dataset, that conta
 ```{r}
 averageSteps$interval01[which.max(averageSteps$avgSteps)]
 ```
+
+```
 ##[1] 835
+```
 
 In this case, the 835-th 5-minute interval has the maximum number of steps.
 
@@ -148,14 +164,17 @@ To verify if the occurance of such bias, we first calculate the total number of 
 ```{r}
 sum(is.na(activityData))
 ```
+
+```
 ##[1] 2304
+```
 
 There are 2304 NA's (missing data).
 
 The strategy to fill in the missing values will be replacing them all by the mean of the 5-minute interval as already calculated above.  For this, we create a new table by binding "activityData" and "averageSteps", then, we replace each NA value by the respective mean for the interval, obtaining a new dataset "totalStepsNoNA".  
 The code for this operation is the following:
         
-        ```{r eliminateMissingData}
+```{r eliminateMissingData}
 noNAactivityData<-cbind(activityData,averageSteps)
 noNAactivityData$steps[is.na(noNAactivityData$steps)] <- noNAactivityData$avgSteps[is.na(noNAactivityData$steps)]
 totalStepsNoNA<-aggregate(steps ~ date, data = noNAactivityData, sum, na.rm = TRUE)
@@ -163,7 +182,7 @@ totalStepsNoNA<-aggregate(steps ~ date, data = noNAactivityData, sum, na.rm = TR
 
 The comparison between the behaviors of the data with NA's and without NA's is:
         
-        ```{r plotHistogram02and03}
+```{r plotHistogram02and03}
 histogr02 <- ggplot(totalStepsperDay, aes(totalStepsperDay$steps)) + 
         geom_histogram(binwidth=600,colour="#999999",fill="#000099") + 
         ggtitle("Total Steps (with NA's)")+
@@ -184,14 +203,20 @@ The new average of the steps taken daily when NA's are removed is :
 ```{r}
 mean(totalStepsNoNA$steps)
 ```
+
+```
 ##[1] 10766.19
+```
 
 And the new median when NA's are removed is:
         
 ```{r}
 median(totalStepsNoNA$steps)
 ```
+
+```
 ##[1] 10766.19
+```
 
 Which shows no significant difference on both indicators.  However, there is a clear increase on the number of counts on the average when NA's are removed.  The distribution of the data also gets visually closer to normal.  This can be checked later in a future exercise.   
 
@@ -233,4 +258,4 @@ grid.arrange(gline01, gline02, ncol = 1)
 
 What we can observe is that there is a peak close to the 5-minute interval 835 on both weekends and weekdays sets. The main difference is that the average after that interval is much higher on the weekends, showing higher level of movement on weekends than working days.
 <br>
-        <br>
+<br>
